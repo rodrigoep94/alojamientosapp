@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalizationService } from 'src/app/services/localization.service';
+import { Alojamiento } from 'src/app/models/alojamiento';
 
 @Component({
   selector: 'app-alta-alojamiento',
@@ -10,7 +11,9 @@ import { LocalizationService } from 'src/app/services/localization.service';
 export class AltaAlojamientoComponent implements OnInit {
     comboProvincias = [];
     comboLocalidades = [];
+    comboAlojamiento = ["Hotel", "Posada", "Cabana", "Otro"]
     registerForm: FormGroup;
+    model: Alojamiento = new Alojamiento();
     submitted = false;
 
     constructor(private formBuilder: FormBuilder,
@@ -19,7 +22,12 @@ export class AltaAlojamientoComponent implements OnInit {
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
             provincia: [null, Validators.required],
-            localidad: [null, Validators.required]
+            localidad: [null, Validators.required],
+            direccion: [null, Validators.required],
+            tipoAlojamiento: [null, Validators.required],
+            categoria: [null, Validators.required],
+            tipoPension: [null, Validators.required],
+            valorPromedioPension: [null, Validators.required]
         });
         this.registerForm.controls.provincia.disabled;
         this.cargarComboProvincia();
@@ -43,8 +51,9 @@ export class AltaAlojamientoComponent implements OnInit {
     get f() { return this.registerForm.controls; }
 
     onSubmit() {
+        console.log(this.model);
         this.submitted = true;
-
+        console.log(this.registerForm);
         // stop here if form is invalid
         if (this.registerForm.invalid) {
             return;
