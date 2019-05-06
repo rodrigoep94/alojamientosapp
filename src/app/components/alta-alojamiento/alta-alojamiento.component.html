@@ -19,9 +19,9 @@
                                        [(ngModel)]="model.provincia"
                                        placeholder="Seleccionar una provincia"
                                        formControlName="provincia"
-                                       [ngClass]="{ 'is-invalid': submitted && f.provincia.errors }" >
+                                       [ngClass]="{ 'control-error': submitted && f.provincia.errors }" >
                             </ng-select>
-                            <div *ngIf="submitted && f.provincia.errors">
+                            <div *ngIf="submitted && f.provincia.errors" class="form-error">
                                 <div *ngIf="f.provincia.errors.required">La provincia es requerida</div>
                             </div>
                         </div>
@@ -36,8 +36,8 @@
                                        [(ngModel)]="model.localidad"
                                        formControlName="localidad"
                                        placeholder="Seleccionar una localidad"
-                                       [ngClass]="{ 'is-invalid': submitted && f.localidad.errors }" ></ng-select>
-                            <div *ngIf="submitted && f.localidad.errors">
+                                       [ngClass]="{ 'control-error': submitted && f.localidad.errors }" ></ng-select>
+                            <div *ngIf="submitted && f.localidad.errors" class="form-error">
                                 <div *ngIf="f.localidad.errors.required">La localidad es requerida</div>
                             </div>
                         </div>
@@ -50,8 +50,8 @@
                                    formControlName="direccion"
                                    class="form-control"
                                    [(ngModel)] = "model.direccion"
-                                   [ngClass]="{ 'is-invalid': submitted && f.direccion.errors }" />
-                            <div *ngIf="submitted && f.direccion.errors" class="invalid-feedback">
+                                   [ngClass]="{ 'control-error': submitted && f.direccion.errors }" />
+                            <div *ngIf="submitted && f.direccion.errors" class="form-error">
                                 <div *ngIf="f.direccion.errors.required">La dirección es requerida</div>
                             </div>
                         </div>
@@ -64,8 +64,8 @@
                                        [(ngModel)]="model.tipoAlojamiento"
                                        formControlName="tipoAlojamiento"
                                        placeholder="Seleccionar un tipo de alojamiento"
-                                       [ngClass]="{ 'is-invalid': submitted && f.tipoAlojamiento.errors }" ></ng-select>
-                            <div *ngIf="submitted && f.tipoAlojamiento.errors">
+                                       [ngClass]="{ 'control-error': submitted && f.tipoAlojamiento.errors }" ></ng-select>
+                            <div *ngIf="submitted && f.tipoAlojamiento.errors" class="form-error">
                                 <div *ngIf="f.tipoAlojamiento.errors.required">El tipo de alojamiento es requerido</div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                             formControlName="categoria"
                                             [ngClass]="{ 'is-invalid': submitted && f.categoria.errors }"
                                             [(ngModel)] = "model.categoria"></ngb-rating>
-                                <div *ngIf="submitted && f.categoria.errors">
+                                <div *ngIf="submitted && f.categoria.errors" class="form-error">
                                     <div *ngIf="f.categoria.errors.required">La categoría es requerida</div>
                                 </div>
                             </div>
