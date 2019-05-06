@@ -1,0 +1,51 @@
+<!-- main app container -->
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Alta de alojamientos</h3>
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <div>
+                        <label><strong>Ubicación</strong></label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Provincia</label>
+                        <div class="col-sm-9">
+                            <ng-select [items]="comboProvincias"
+                                       bindLabel="name"
+                                       bindValue="id"
+                                       (change)="changePais($event)"
+                                       placeholder="Seleccionar una provincia"
+                                       formControlName="provincia">
+                            </ng-select>
+                            <div *ngIf="submitted && f.provincia.errors">
+                                <div *ngIf="f.provincia.errors.required">La provincia es requerida</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Localidad</label>
+                        <div class="col-sm-9">
+                            <ng-select [items]="comboLocalidades"
+                                       bindLabel="name"
+                                       bindValue="id"
+                                       [disabled]="1 == 1"
+                                       [(ngModel)]="localidad"
+                                       formControlName="localidad"
+                                       placeholder="Seleccionar una localidad"></ng-select>
+                            <div *ngIf="submitted && f.localidad.errors">
+                                <div *ngIf="f.localidad.errors.required">La localidad es requerida</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
