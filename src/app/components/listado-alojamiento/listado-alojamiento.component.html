@@ -1,0 +1,28 @@
+<div class="jumbotron">
+  <div class="container">
+      <div class="row">
+          <h3>Alojamientos</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">Localidad</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let alojamiento of alojamientos">
+                <td>{{ alojamiento.nombre }}</td>
+                <td>{{ alojamiento.descripcion }}</td>
+                <td>{{ alojamiento.ubicacion.provincia }}</td>
+                <td>{{ alojamiento.ubicacion.localidad }}</td>
+                <td>{{ alojamiento.ubicacion.direccion }}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+  </div>
+</div>

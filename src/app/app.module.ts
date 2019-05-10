@@ -9,12 +9,14 @@ import { AltaAlojamientoComponent } from './components/alta-alojamiento/alta-alo
 import { AppHeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ListadoAlojamientoComponent } from './components/listado-alojamiento/listado-alojamiento.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AltaAlojamientoComponent,
-    AppHeaderComponent
+    AppHeaderComponent,
+    ListadoAlojamientoComponent
   ],
   imports: [
     BrowserModule,
