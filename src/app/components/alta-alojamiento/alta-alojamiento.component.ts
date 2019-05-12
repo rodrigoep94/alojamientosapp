@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalizationService } from 'src/app/services/localization.service';
 import { Alojamiento } from 'src/app/models/alojamiento';
+import { AlojamientosService } from 'src/app/services/alojamientos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-alojamiento',
@@ -15,9 +17,12 @@ export class AltaAlojamientoComponent implements OnInit {
     registerForm: FormGroup;
     model: Alojamiento = new Alojamiento();
     submitted = false;
+    loading = false;
 
     constructor(private formBuilder: FormBuilder,
-                private localizationService: LocalizationService) { }
+                private localizationService: LocalizationService,
+                private alojamientosService: AlojamientosService,
+                private router: Router) { }
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
@@ -26,8 +31,8 @@ export class AltaAlojamientoComponent implements OnInit {
             direccion: [null, Validators.required],
             tipoAlojamiento: [null, Validators.required],
             categoria: [null, Validators.required],
-            tipoPension: [null, Validators.required],
-            valorPromedioPension: [null, Validators.required]
+            nombre: [null, Validators.required],
+            descripcion: [null, Validators.required]
         });
         this.registerForm.controls.provincia.disabled;
         this.cargarComboProvincia();
@@ -43,6 +48,14 @@ export class AltaAlojamientoComponent implements OnInit {
                 }
                 list.push(comboValue);
             })
+            list.sort(function(a, b){
+                var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
             this.comboProvincias = list;
         });
     }
@@ -51,19 +64,18 @@ export class AltaAlojamientoComponent implements OnInit {
     get f() { return this.registerForm.controls; }
 
     onSubmit() {
-        console.log(this.model);
         this.submitted = true;
-        console.log(this.registerForm);
-        // stop here if form is invalid
         if (this.registerForm.invalid) {
             return;
         }
-
-        alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
+        this.loading = true;
+        this.alojamientosService.guardarAlojamiento(this.model).subscribe(data => {
+            this.loading = false;
+            this.router.navigate(['/listadoAlojamientos']);
+        });
     }
 
     changePais(event){
-        console.log(event);
         this.cargarComboLocalidad(event.id);
     }
 
@@ -77,6 +89,14 @@ export class AltaAlojamientoComponent implements OnInit {
                 }
                 list.push(comboValue);
             })
+            list.sort(function(a, b){
+                var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
             this.comboLocalidades = list;
         });
     }

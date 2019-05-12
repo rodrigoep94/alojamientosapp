@@ -1,62 +1,37 @@
-<!-- main app container -->
 <div class="jumbotron">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <h3>Alta de alojamientos</h3>
                 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                    <div>
-                        <label><strong>Ubicación</strong></label>
-                    </div>
-
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Provincia</label>
-                        <div class="col-sm-8">
-                            <ng-select [items]="comboProvincias"
-                                       bindLabel="name"
-                                       bindValue="id"
-                                       (change)="changePais($event)"
-                                       [(ngModel)]="model.provincia"
-                                       placeholder="Seleccionar una provincia"
-                                       formControlName="provincia"
-                                       [ngClass]="{ 'control-error': submitted && f.provincia.errors }" >
-                            </ng-select>
-                            <div *ngIf="submitted && f.provincia.errors" class="form-error">
-                                <div *ngIf="f.provincia.errors.required">La provincia es requerida</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Localidad</label>
-                        <div class="col-sm-8">
-                            <ng-select [items]="comboLocalidades"
-                                       bindLabel="name"
-                                       bindValue="id"
-                                       [(ngModel)]="model.localidad"
-                                       formControlName="localidad"
-                                       placeholder="Seleccionar una localidad"
-                                       [ngClass]="{ 'control-error': submitted && f.localidad.errors }" ></ng-select>
-                            <div *ngIf="submitted && f.localidad.errors" class="form-error">
-                                <div *ngIf="f.localidad.errors.required">La localidad es requerida</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Dirección</label>
+                        <label class="col-sm-4 col-form-label">Nombre</label>
                         <div class="col-sm-8">
                             <input type="text"
-                                   formControlName="direccion"
+                                   formControlName="nombre"
                                    class="form-control"
-                                   [(ngModel)] = "model.direccion"
-                                   [ngClass]="{ 'control-error': submitted && f.direccion.errors }" />
-                            <div *ngIf="submitted && f.direccion.errors" class="form-error">
-                                <div *ngIf="f.direccion.errors.required">La dirección es requerida</div>
+                                   [(ngModel)] = "model.nombre"
+                                   [ngClass]="{ 'control-error': submitted && f.nombre.errors }" />
+                            <div *ngIf="submitted && f.nombre.errors" class="form-error">
+                                <div *ngIf="f.nombre.errors.required">El nombre es requerido</div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Descripción</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   formControlName="descripcion"
+                                   class="form-control"
+                                   [(ngModel)] = "model.descripcion"
+                                   [ngClass]="{ 'control-error': submitted && f.descripcion.errors }" />
+                            <div *ngIf="submitted && f.descripcion.errors" class="form-error">
+                                <div *ngIf="f.descripcion.errors.required">La descripción es requerida</div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Tipo de alojamiento</label>
                         <div class="col-sm-8">
@@ -84,9 +59,64 @@
                                 </div>
                             </div>
                         </div>
+
+                    <div class="row col-md-12">
+                        <label><strong>Ubicación</strong></label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Provincia</label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="comboProvincias"
+                                       bindLabel="name"
+                                       bindValue="name"
+                                       (change)="changePais($event)"
+                                       [(ngModel)]="model.ubicacion.provincia"
+                                       placeholder="Seleccionar una provincia"
+                                       formControlName="provincia"
+                                       [ngClass]="{ 'control-error': submitted && f.provincia.errors }" >
+                            </ng-select>
+                            <div *ngIf="submitted && f.provincia.errors" class="form-error">
+                                <div *ngIf="f.provincia.errors.required">La provincia es requerida</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Localidad</label>
+                        <div class="col-sm-8">
+                            <ng-select [items]="comboLocalidades"
+                                       bindLabel="name"
+                                       bindValue="name"
+                                       [(ngModel)]="model.ubicacion.localidad"
+                                       formControlName="localidad"
+                                       placeholder="Seleccionar una localidad"
+                                       [ngClass]="{ 'control-error': submitted && f.localidad.errors }" ></ng-select>
+                            <div *ngIf="submitted && f.localidad.errors" class="form-error">
+                                <div *ngIf="f.localidad.errors.required">La localidad es requerida</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Dirección</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   formControlName="direccion"
+                                   class="form-control"
+                                   [(ngModel)] = "model.ubicacion.direccion"
+                                   [ngClass]="{ 'control-error': submitted && f.direccion.errors }" />
+                            <div *ngIf="submitted && f.direccion.errors" class="form-error">
+                                <div *ngIf="f.direccion.errors.required">La dirección es requerida</div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="form-group">
-                        <button class="btn btn-primary">Register</button>
+                        <button class="btn btn-primary" [disabled]="loading">Crear Alojamiento</button>
+                        <img *ngIf="loading"
+                             src="https://66.media.tumblr.com/695ce9a82c8974ccbbfc7cad40020c62/tumblr_o9c9rnRZNY1qbmm1co1_1280.gifv" 
+                             width="9%">
                     </div>
                 </form>
             </div>

@@ -1,15 +1,15 @@
+import { Ubicacion } from './ubicacion';
+
 export class Alojamiento{
     
     constructor(){
-        
+        this.ubicacion = new Ubicacion();
     }
 
     id: number;
-    provincia: string;
-    localidad: string;
-    direccion: string;
+    nombre: string;
+    descripcion: string;
+    ubicacion: Ubicacion;
     tipoAlojamiento: string;
     categoria: number;
-    tipoPension: string;
-    valorPromedioPension: number;
 }

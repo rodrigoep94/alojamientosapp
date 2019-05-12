@@ -13,9 +13,21 @@ export class ListadoAlojamientoComponent implements OnInit {
   alojamientos: any[];
 
   ngOnInit() {
+    this.getAlojamientos();
+  }
+
+  getAlojamientos(){
     this.alojamientosService.getAlojamientos().subscribe(data => {
-      console.log(data);
+      this.alojamientos = data;
     });
+  }
+
+  deleteAlojamiento(idAlojamiento){
+    if (confirm("¿Está seguro de querer eliminar el alojamiento?")){
+      this.alojamientosService.deleteAlojamiento(idAlojamiento).subscribe(data =>{
+        this.getAlojamientos();
+      })
+    }
   }
 
 }

@@ -7,6 +7,7 @@
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
+                <th scope="col">Categoria</th>
                 <th scope="col">Provincia</th>
                 <th scope="col">Localidad</th>
                 <th scope="col">Dirección</th>
@@ -17,9 +18,13 @@
               <tr *ngFor="let alojamiento of alojamientos">
                 <td>{{ alojamiento.nombre }}</td>
                 <td>{{ alojamiento.descripcion }}</td>
+                <td>{{ alojamiento.categoria }}</td>
                 <td>{{ alojamiento.ubicacion.provincia }}</td>
                 <td>{{ alojamiento.ubicacion.localidad }}</td>
                 <td>{{ alojamiento.ubicacion.direccion }}</td>
+                <td>
+                  <i style="color:red; cursor: pointer;" (click)="deleteAlojamiento(alojamiento.id)" class="fas fa-trash-alt"></i>
+                </td>
               </tr>
             </tbody>
           </table>
