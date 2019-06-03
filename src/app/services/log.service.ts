@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/Observable/of';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +9,7 @@ export class LogService {
 
   private storageLocation = "AlojamientosLog";
 
-  log(msg: string): Observable<boolean> {
+  log(msg: string): boolean {
     let ret: boolean = false;
       
     try {
@@ -31,12 +29,12 @@ export class LogService {
       console.log(ex);
     }
       
-    return of(ret);
+    return ret;
   }
       
   // Clear all log entries from local storage
-  clear(): Observable<boolean> {
+  clear(): boolean {
     localStorage.removeItem(this.storageLocation);
-    return of(true);
+    return true;
   }
 }
