@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { saveAs } from 'file-saver/src/FileSaver';
+import { Helper } from '../../utils/helper';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +15,11 @@ export class AppHeaderComponent implements OnInit {
   }
 
   descargarLog(){
-    let logs = JSON.parse(localStorage.getItem("AlojamientosLog")) || [];
-    console.log(logs);
+    let logs: string[] = JSON.parse(localStorage.getItem("AlojamientosLog")) || [];
+    logs = logs.map(str => { return str + "\r\n"});
+    const filename = "Alojamientos-log-" + Helper.getLocaleDate(new Date()) + ".txt";
+    const blob = new Blob(logs, { type: 'text/plain' });
+    saveAs(blob, filename);
   }
 
 }

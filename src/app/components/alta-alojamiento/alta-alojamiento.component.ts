@@ -4,6 +4,7 @@ import { LocalizationService } from 'src/app/services/localization.service';
 import { Alojamiento } from 'src/app/models/alojamiento';
 import { AlojamientosService } from 'src/app/services/alojamientos.service';
 import { Router } from '@angular/router';
+import { Helper } from '../../utils/helper';
 import { LogService } from '../../services/log.service';
 
 @Component({
@@ -39,7 +40,7 @@ export class AltaAlojamientoComponent implements OnInit {
         this.registerForm.controls.provincia.disabled;
         this.cargarComboProvincia();
 
-        this.logService.log("Log - Ha ingresado a la pantalla de alta de alojamiento - " + Date.now().toLocaleString());
+        this.logService.log("Log - Ha ingresado a la pantalla de alta de alojamiento - " + Helper.getLocaleDate(new Date()));
     }
 
     cargarComboProvincia(){
@@ -61,11 +62,11 @@ export class AltaAlojamientoComponent implements OnInit {
         this.loading = true;
         this.alojamientosService.guardarAlojamiento(this.model).subscribe(data => {
             let newData = data as Alojamiento;
-            this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + newData.id.toString() + " - " + Date.now().toLocaleString());
+            this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + newData.id.toString() + " - " + Helper.getLocaleDate(new Date()));
             this.loading = false;
             this.router.navigate(['/listadoAlojamientos']);
         }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de alta de alojamiento - " + error + " - " +Date.now().toLocaleString());   
+            this.logService.log("Error - Ha fallado la llamada al servicio de alta de alojamiento - " + error + " - " + Helper.getLocaleDate(new Date()));   
         });
     }
 
@@ -77,7 +78,7 @@ export class AltaAlojamientoComponent implements OnInit {
         this.localizationService.getLocalidades(idProvincia).subscribe(data => {
             this.comboLocalidades = this.formatDataForUbicationDropdowns(data.municipios);
         }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de localidades - " + error + " - " + Date.now().toLocaleString());   
+            this.logService.log("Error - Ha fallado la llamada al servicio de localidades - " + error + " - " + Helper.getLocaleDate(new Date()));   
         });
     }
 
