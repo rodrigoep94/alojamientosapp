@@ -60,7 +60,8 @@ export class AltaAlojamientoComponent implements OnInit {
         }
         this.loading = true;
         this.alojamientosService.guardarAlojamiento(this.model).subscribe(data => {
-            this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + data.id.toString() + " - " + Date.now().toLocaleString());
+            let newData = data as Alojamiento;
+            this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + newData.id.toString() + " - " + Date.now().toLocaleString());
             this.loading = false;
             this.router.navigate(['/listadoAlojamientos']);
         }, error =>{
