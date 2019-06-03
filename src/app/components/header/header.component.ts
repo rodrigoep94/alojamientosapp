@@ -12,4 +12,9 @@ export class AppHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  descargarLog(){
+    let logs = JSON.parse(localStorage.getItem("AlojamientosLog")) || [];
+    console.log(logs);
+  }
+
 }

@@ -4,6 +4,7 @@ import { LocalizationService } from 'src/app/services/localization.service';
 import { Alojamiento } from 'src/app/models/alojamiento';
 import { AlojamientosService } from 'src/app/services/alojamientos.service';
 import { Router } from '@angular/router';
+import { LogService } from '../../services/log.service';
 
 @Component({
   selector: 'app-alta-alojamiento',
@@ -22,6 +23,7 @@ export class AltaAlojamientoComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
                 private localizationService: LocalizationService,
                 private alojamientosService: AlojamientosService,
+                private logService: LogService,
                 private router: Router) { }
 
     ngOnInit() {
@@ -36,27 +38,15 @@ export class AltaAlojamientoComponent implements OnInit {
         });
         this.registerForm.controls.provincia.disabled;
         this.cargarComboProvincia();
+
+        this.logService.log("Log - Ha ingresado a la pantalla de alta de alojamiento - " + Date.now().toLocaleString());
     }
 
     cargarComboProvincia(){
         this.localizationService.getProvincias().subscribe(data => {
-            let list = [];
-            data.provincias.forEach(provincia => {
-                let comboValue = {
-                    id: provincia.id.toString(),
-                    name: provincia.nombre
-                }
-                list.push(comboValue);
-            })
-            list.sort(function(a, b){
-                var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
-                if (nameA < nameB) //sort string ascending
-                    return -1;
-                if (nameA > nameB)
-                    return 1;
-                return 0; //default return value (no sorting)
-            });
-            this.comboProvincias = list;
+            this.comboProvincias = this.formatDataForUbicationDropdowns(data.provincias);
+        }, error =>{
+            this.logService.log("Error - Ha fallado la llamada al servicio de provincias - " + Date.now().toLocaleString());   
         });
     }
 
@@ -70,8 +60,11 @@ export class AltaAlojamientoComponent implements OnInit {
         }
         this.loading = true;
         this.alojamientosService.guardarAlojamiento(this.model).subscribe(data => {
+            this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + data.id.toString() + " - " + Date.now().toLocaleString());
             this.loading = false;
             this.router.navigate(['/listadoAlojamientos']);
+        }, error =>{
+            this.logService.log("Error - Ha fallado la llamada al servicio de alta de alojamiento - " + error + " - " +Date.now().toLocaleString());   
         });
     }
 
@@ -81,23 +74,31 @@ export class AltaAlojamientoComponent implements OnInit {
 
     cargarComboLocalidad(idProvincia){
         this.localizationService.getLocalidades(idProvincia).subscribe(data => {
-            let list = [];
-            data.municipios.forEach(provincia => {
-                let comboValue = {
-                    id: provincia.id.toString(),
-                    name: provincia.nombre
-                }
-                list.push(comboValue);
-            })
-            list.sort(function(a, b){
-                var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
-                if (nameA < nameB) //sort string ascending
-                    return -1;
-                if (nameA > nameB)
-                    return 1;
-                return 0; //default return value (no sorting)
-            });
-            this.comboLocalidades = list;
+            this.comboLocalidades = this.formatDataForUbicationDropdowns(data.municipios);
+        }, error =>{
+            this.logService.log("Error - Ha fallado la llamada al servicio de localidades - " + error + " - " + Date.now().toLocaleString());   
         });
+    }
+
+    private formatDataForUbicationDropdowns(list){
+        let values = [];
+        list.forEach(provincia => {
+            let comboValue = {
+                id: provincia.id.toString(),
+                name: provincia.nombre
+            }
+            values.push(comboValue);
+        })
+
+        values.sort(function(a, b){
+            var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
+            if (nameA < nameB) //sort string ascending
+                return -1;
+            if (nameA > nameB)
+                return 1;
+            return 0; //default return value (no sorting)
+        });
+
+        return values;
     }
 }
