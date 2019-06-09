@@ -1,6 +1,8 @@
 # AppAlojamientos
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+Servicio de almacenamiento de alojamientos
+
+Para más información consulte la [wiki](https://github.com/rodrigoep94/alojamientosapp/wiki)
 
 ## Development server
 
