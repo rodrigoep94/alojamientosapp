@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Login</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span>&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="loginForm">
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Usuario" formControlName="username"
+          [ngClass]="{ 'control-error': submitted && f.username.errors }" >
+          
+          <div *ngIf="submitted && f.username.errors" class="form-error">
+              <div *ngIf="f.username.errors.required">El nombre de usuario es requerido</div>
+          </div>
+        </div>
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-key"></i></span>
+          </div>
+          <input type="password" class="form-control" placeholder="Contraseña" formControlName="password"
+          [ngClass]="{ 'control-error': submitted && f.password.errors }">
+          
+          <div *ngIf="submitted && f.password.errors" class="form-error">
+              <div *ngIf="f.password.errors.required">La contraseña es requerida</div>
+          </div>
+        </div>
+  </form>
+  <div class="col-md-12 text-center red-colour" *ngIf="messageError">
+    {{messageError}}
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" (click)="login()">Login</button>
+  <button type="button" class="btn btn-info" (click)="closeModal()">Cancelar</button>
+</div>
