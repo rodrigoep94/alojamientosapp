@@ -15,6 +15,7 @@
                      formControlName="nombre"
                      placeholder="Ingrese el nombre" 
                      class="form-control"
+                     [(ngModel)] = "model.nombre"
                      [ngClass]="{ 'control-error': submitted && f.nombre.errors }" />
               <div *ngIf="submitted && f.nombre.errors" class="form-error">
                   <div *ngIf="f.nombre.errors.required">El nombre es requerido</div>
@@ -30,6 +31,7 @@
                      formControlName="apellido"
                      placeholder="Ingrese el apellido" 
                      class="form-control"
+                     [(ngModel)] = "model.apellido"
                      [ngClass]="{ 'control-error': submitted && f.apellido.errors }" />
               <div *ngIf="submitted && f.apellido.errors" class="form-error">
                   <div *ngIf="f.apellido.errors.required">El apellido es requerido</div>
@@ -45,9 +47,10 @@
                      formControlName="username"
                      class="form-control"
                      placeholder="Ingrese el nombre de usuario" 
+                     [(ngModel)] = "model.username"
                      [ngClass]="{ 'control-error': submitted && f.username.errors }" />
               <div *ngIf="submitted && f.username.errors" class="form-error">
-                  <div *ngIf="f.nombre.username.required">El nombre de usuario es requerido</div>
+                  <div *ngIf="f.username.errors.required">El nombre de usuario es requerido</div>
               </div>
           </div>
       </div>
@@ -56,13 +59,16 @@
       <div class="form-group row">
           <label class="col-sm-12 col-form-label">Contraseña</label>
           <div class="col-sm-12">
-              <input type="text"
-                     formControlName="password"
-                     class="form-control"
-                     placeholder="Ingrese la contraseña" 
-                     [ngClass]="{ 'control-error': submitted && f.password.errors }" />
+                <show-hide-password size="md" [btnOutline]="false">
+                    <input type="password"
+                        formControlName="password"
+                        class="form-control"
+                        placeholder="Ingrese la contraseña" 
+                        [(ngModel)] = "model.password"
+                        [ngClass]="{ 'control-error': submitted && f.password.errors }" />
+                </show-hide-password>   
               <div *ngIf="submitted && f.password.errors" class="form-error">
-                  <div *ngIf="f.nombre.password.required">La contraseña es requerida</div>
+                  <div *ngIf="f.password.errors.required">La contraseña es requerida</div>
               </div>
           </div>
       </div>

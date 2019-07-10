@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
         return;
     }
+    // encriptar password
     //Llamada a service de login
     //Guardar usuario en respuesta
     //Mostrar mensaje en error
