@@ -16,7 +16,7 @@
                      formControlName="firstName"
                      class="form-control"
                      [(ngModel)] = "model.firstName"
-                     [ngClass]="{ 'control-error': submitted && f.nombre.errors }" />
+                     [ngClass]="{ 'control-error': submitted && f.firstName.errors }" />
               <div *ngIf="submitted && f.firstName.errors" class="form-error">
                   <div *ngIf="f.firstName.errors.required">El nombre es requerido</div>
               </div>
@@ -32,7 +32,7 @@
                      formControlName="lastName"
                      class="form-control"
                      [(ngModel)] = "model.lastName"
-                     [ngClass]="{ 'control-error': submitted && f.apellido.errors }" />
+                     [ngClass]="{ 'control-error': submitted && f.lastName.errors }" />
               <div *ngIf="submitted && f.lastName.errors" class="form-error">
                   <div *ngIf="f.lastName.errors.required">El apellido es requerido</div>
               </div>

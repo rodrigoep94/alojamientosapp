@@ -41,12 +41,11 @@ export class RegisterComponent implements OnInit {
     }
     // Encrypt
     var newUser = {...this.model} as User;
-    newUser.password = crypto.AES.encrypt(this.model.password, 'alojamientosapp').toString();
+    newUser.password = crypto.HmacSHA1(this.model.password, 'alojamientosapp').toString();
     console.log(newUser);
     this.loginService.register(newUser).subscribe(data => {
         console.log(data);
-        sessionStorage.setItem("User-Alojamientosapp", JSON.stringify(data));
-        console.log(sessionStorage.getItem('User-Alojamientosapp'));
+        this.activeModal.close();
     }, error =>{
         console.log(error);
     });

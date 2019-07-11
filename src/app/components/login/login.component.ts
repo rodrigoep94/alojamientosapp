@@ -34,22 +34,17 @@ export class LoginComponent implements OnInit {
         return;
     }
     
-    var loginModelEncrypted = {
-      username : this.model.username,
-      password : crypto.AES.encrypt(this.model.password, 'alojamientosapp').toString()
-    } as LoginModel;
-
+    var loginModelEncrypted = {...this.model} as LoginModel;    
+    loginModelEncrypted.password = crypto.HmacSHA1(this.model.password, 'alojamientosapp').toString();
     console.log(loginModelEncrypted);
-
+    
     this.loginService.login(loginModelEncrypted).subscribe(data => {
         console.log(data);
+        sessionStorage.setItem("User-Alojamientosapp", JSON.stringify(data));
+        console.log(sessionStorage.getItem('User-Alojamientosapp'));
     }, error =>{
         console.log(error);
     });
-
-    //Llamada a service de login
-    //Guardar usuario en respuesta
-    //Mostrar mensaje en error
   }
 
   closeModal(){
