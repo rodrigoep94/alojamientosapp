@@ -1,30 +1,25 @@
 import { Injectable } from '@angular/core';
 import { LoginModel } from '../models/loginModel';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
+import { BaseService } from './service.base';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class LoginService extends BaseService {
 
-  constructor(private http: HttpClient) { }
+  constructor(protected http: HttpClient) { 
+    super(http);
+  }
 
   login(user: LoginModel){
-    let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    let options = {
-      headers: httpHeaders
-    }; 
-    var userObtenido = this.http.post('https://alojapp-backend.herokuapp.com/usuario/login', JSON.stringify(user), options);
+    var userObtenido = this.post('usuario/login', JSON.stringify(user));
     return userObtenido;
   }
 
   register(user: User){
-    let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    let options = {
-      headers: httpHeaders
-    }; 
-    var userLogeado = this.http.post('https://alojapp-backend.herokuapp.com/usuario/register', JSON.stringify(user), options);
+    var userLogeado = this.post('usuario/register', JSON.stringify(user));
     return userLogeado;
   }
 

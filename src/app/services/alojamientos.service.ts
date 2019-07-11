@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Alojamiento } from '../models/alojamiento';
+import { BaseService } from './service.base';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AlojamientosService {
+export class AlojamientosService extends BaseService {
 
-  constructor(private http: HttpClient) { }
+  constructor(protected http: HttpClient) {
+    super(http);
+   }
 
   getAlojamientos(): Observable<any>{
-    
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa('user@gmail.com' + ':' + '1234678') });
-    var alojamientos = this.http.get('https://alojapp-backend.herokuapp.com/alojamiento/get', {headers});
+    var alojamientos = this.get('alojamiento/get');
     return alojamientos;
   }
 
