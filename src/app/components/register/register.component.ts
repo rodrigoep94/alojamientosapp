@@ -3,6 +3,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import * as crypto from 'crypto-js';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-register',
@@ -17,13 +18,14 @@ export class RegisterComponent implements OnInit {
   model = new User();
 
   constructor(private formBuilder: FormBuilder,
-    private activeModal: NgbActiveModal) { }
+    private activeModal: NgbActiveModal,
+    private loginService: LoginService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-        nombre: [null, Validators.required],
-        apellido: [null, Validators.required],
-        username: [null, Validators.required],
+        firstName: [null, Validators.required],
+        lastName: [null, Validators.required],
+        email: [null, Validators.required],
         password: [null, Validators.required]
     });
   }
@@ -33,24 +35,21 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    // Encrypt
-    var ciphertext = crypto.AES.encrypt('my message', 'alojamientosapp');
-    var encrypted = ciphertext.toString(crypto.enc.Utf8);
-    console.log(ciphertext.toString());
-    console.log(encrypted);
-     
-    // Decrypt
-    var bytes  = crypto.AES.decrypt(ciphertext.toString(), 'alojamientosapp');
-    var plaintext = bytes.toString(crypto.enc.Utf8);
-     
-    console.log(plaintext);
-    
     this.submitted = true;
     if (this.registerForm.invalid){
       return;
     }
-    // encriptar password
-    // llamar servicio de registro
+    // Encrypt
+    var newUser = {...this.model} as User;
+    newUser.password = crypto.AES.encrypt(this.model.password, 'alojamientosapp').toString();
+    console.log(newUser);
+    this.loginService.register(newUser).subscribe(data => {
+        console.log(data);
+        sessionStorage.setItem("User-Alojamientosapp", JSON.stringify(data));
+        console.log(sessionStorage.getItem('User-Alojamientosapp'));
+    }, error =>{
+        console.log(error);
+    });
   }
 
   get f() { return this.registerForm.controls; }

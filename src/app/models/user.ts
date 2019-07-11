@@ -1,11 +1,13 @@
 export class User{
     
     constructor(){
+        this.roles =  ["ADMIN"];
     }
 
     id: number;
     password: string;
-    nombre: string;
-    apellido: string;
-    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    roles: any[];
 }

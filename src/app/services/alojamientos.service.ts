@@ -11,7 +11,9 @@ export class AlojamientosService {
   constructor(private http: HttpClient) { }
 
   getAlojamientos(): Observable<any>{
-    var alojamientos = this.http.get('https://alojapp-backend.herokuapp.com/alojamiento/get');
+    
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa('user@gmail.com' + ':' + '1234678') });
+    var alojamientos = this.http.get('https://alojapp-backend.herokuapp.com/alojamiento/get', {headers});
     return alojamientos;
   }
 
