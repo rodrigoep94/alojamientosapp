@@ -24,6 +24,7 @@ export class BaseService {
 
     public get(url) : Observable<any>{
         let logedUser = JSON.parse(sessionStorage.getItem("User-Alojamientosapp")) as User;
+        console.log(logedUser);
         if (logedUser == null){
             throw new Error("Debe encontrarse logueado para ver los alojamientos"); 
         }
