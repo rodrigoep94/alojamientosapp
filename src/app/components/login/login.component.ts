@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   public messageError: string;
   loginForm: FormGroup;
   submitted = false;
+  loading = false;
   model = new LoginModel();
   
   constructor(private formBuilder: FormBuilder,
@@ -35,6 +36,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
         return;
     }
+
+    this.loginForm.disable();
+    this.loading = true;
     
     this.loginService.login(this.model).subscribe(data => {
         console.log(data);
@@ -43,8 +47,15 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem("User-Alojamientosapp", JSON.stringify(newUserToSave));
         this.activeModal.dismiss();
     }, error =>{
-        console.log(error);
+      this.loginForm.enable();
+      this.loading = false;
+      this.setErrorMessage(error.status);
     });
+  }
+
+  setErrorMessage(error){
+    if (error == "404") this.messageError = "El usuario no se encuentra registrado en el sistema";
+    if (error == "400") this.messageError = "La contraseña es incorrecta";
   }
 
   closeModal(){

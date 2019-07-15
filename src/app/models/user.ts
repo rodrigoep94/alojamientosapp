@@ -1,7 +1,7 @@
 export class User{
     
     constructor(){
-        this.roles =  ["ADMIN"];
+        this.roles =  ["USER"];
     }
 
     id: number;
