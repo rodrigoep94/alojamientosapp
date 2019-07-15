@@ -44,11 +44,9 @@ export class RegisterComponent implements OnInit {
     this.registerForm.disable();
     this.loading = true;
 
-    console.log(this.model);
-
     this.loginService.register(this.model).subscribe(data => {
-        console.log(data);
-        this.activeModal.close();
+        this.loading = false;
+        this.messageError = "Usuario registrado correctamente!"
     }, error =>{
         this.messageError = "Hubo un error al procesar la solicitud. Por favor intente nuevamente."
         this.registerForm.enable();

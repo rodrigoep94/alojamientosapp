@@ -11,11 +11,23 @@ import { UserSavedModel } from '../models/userSavedModel';
 export class BaseService {
 
     private baseUrl = "https://alojapp-backend.herokuapp.com/";
+    private logedUser = JSON.parse(sessionStorage.getItem("User-Alojamientosapp")) as UserSavedModel;
 
     constructor(protected http: HttpClient){
     }
 
+    public postWithSecurity(url, model){
+        
+        let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json')
+            .set('Authorization', 'Basic ' + btoa(this.logedUser.username + ':' + this.logedUser.password));
+        let options = {
+          headers: httpHeaders
+        };
+        return this.http.post(this.baseUrl + url, model, options)
+    }
+
     public post(url, model){
+        
         let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
         let options = {
           headers: httpHeaders
@@ -23,15 +35,21 @@ export class BaseService {
         return this.http.post(this.baseUrl + url, model, options)
     }
 
-    public get(url) : Observable<any>{
-        let logedUser = JSON.parse(sessionStorage.getItem("User-Alojamientosapp")) as UserSavedModel;
-        console.log(logedUser);
-        if (logedUser == null){
-            throw new Error("Debe encontrarse logueado para ver los alojamientos"); 
-        }
-        console.log(logedUser);
+    public delete(url, model){
         let headers = new HttpHeaders({ 
-            Authorization: 'Basic ' + btoa(logedUser.username + ':' + logedUser.password) 
+            Authorization: 'Basic ' + btoa(this.logedUser.username + ':' + this.logedUser.password) 
+        });       
+        return this.http.put(this.baseUrl + url, null, {headers});
+    }
+
+    public get(url) : Observable<any>{
+        
+        if (this.logedUser == null){
+            throw new Error("Debe encontrarse logueado para realizar la accion"); 
+        }
+        
+        let headers = new HttpHeaders({ 
+            Authorization: 'Basic ' + btoa(this.logedUser.username + ':' + this.logedUser.password) 
         });       
         return this.http.get(this.baseUrl + url, {headers});
     }

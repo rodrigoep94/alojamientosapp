@@ -19,16 +19,12 @@ export class AlojamientosService extends BaseService {
   }
 
   guardarAlojamiento(alojamiento: Alojamiento){
-    let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    let options = {
-      headers: httpHeaders
-    }; 
-    var alojamientoGuardado = this.http.post('https://alojapp-backend.herokuapp.com/alojamiento/create', JSON.stringify(alojamiento), options);
+    var alojamientoGuardado = this.postWithSecurity('alojamiento/create', JSON.stringify(alojamiento));
     return alojamientoGuardado;
   }
 
   deleteAlojamiento(idAlojamiento: number){
-    var alojamientoEliminado = this.http.put('https://alojapp-backend.herokuapp.com/alojamiento/delete/' + idAlojamiento.toString(), null);
+    var alojamientoEliminado = this.delete('alojamiento/delete/' + idAlojamiento.toString(), null);
     return alojamientoEliminado;
   }
 }
