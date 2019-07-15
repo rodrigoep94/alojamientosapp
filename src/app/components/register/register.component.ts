@@ -39,11 +39,8 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid){
       return;
     }
-    // Encrypt
-    var newUser = {...this.model} as User;
-    newUser.password = crypto.HmacSHA1(this.model.password, 'alojamientosapp').toString();
-    console.log(newUser);
-    this.loginService.register(newUser).subscribe(data => {
+    console.log(this.model);
+    this.loginService.register(this.model).subscribe(data => {
         console.log(data);
         this.activeModal.close();
     }, error =>{

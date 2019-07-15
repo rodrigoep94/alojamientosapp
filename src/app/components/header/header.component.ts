@@ -29,6 +29,7 @@ export class AppHeaderComponent implements OnInit {
       console.log(`Closed with: ${result}`);
     }, (reason) => {
       this.getUsuario();
+      window.location.reload();
     })
   }
 
@@ -39,6 +40,7 @@ export class AppHeaderComponent implements OnInit {
   logout(){
     sessionStorage.removeItem('User-Alojamientosapp');
     this.getUsuario();
+    window.location.reload();
   }
 
 }

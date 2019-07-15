@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginModel } from 'src/app/models/loginModel';
 import * as crypto from 'crypto-js';
 import { LoginService } from 'src/app/services/login.service';
+import { UserSavedModel } from 'src/app/models/userSavedModel';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-login',
@@ -34,11 +36,11 @@ export class LoginComponent implements OnInit {
         return;
     }
     
-    var loginModelEncrypted = {...this.model} as LoginModel;    
-    loginModelEncrypted.password = crypto.HmacSHA1(this.model.password, 'alojamientosapp').toString();
-    
-    this.loginService.login(loginModelEncrypted).subscribe(data => {
-        sessionStorage.setItem("User-Alojamientosapp", JSON.stringify(data));
+    this.loginService.login(this.model).subscribe(data => {
+        console.log(data);
+        let newUserToSave = new UserSavedModel(this.model.username, this.model.password, []);
+        
+        sessionStorage.setItem("User-Alojamientosapp", JSON.stringify(newUserToSave));
         this.activeModal.dismiss();
     }, error =>{
         console.log(error);

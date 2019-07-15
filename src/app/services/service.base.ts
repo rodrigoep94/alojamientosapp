@@ -3,6 +3,7 @@ import { LoginModel } from '../models/loginModel';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
+import { UserSavedModel } from '../models/userSavedModel';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +24,14 @@ export class BaseService {
     }
 
     public get(url) : Observable<any>{
-        let logedUser = JSON.parse(sessionStorage.getItem("User-Alojamientosapp")) as User;
+        let logedUser = JSON.parse(sessionStorage.getItem("User-Alojamientosapp")) as UserSavedModel;
         console.log(logedUser);
         if (logedUser == null){
             throw new Error("Debe encontrarse logueado para ver los alojamientos"); 
         }
         console.log(logedUser);
         let headers = new HttpHeaders({ 
-            Authorization: 'Basic ' + btoa(logedUser.email + ':' + logedUser.password) 
+            Authorization: 'Basic ' + btoa(logedUser.username + ':' + logedUser.password) 
         });       
         return this.http.get(this.baseUrl + url, {headers});
     }
