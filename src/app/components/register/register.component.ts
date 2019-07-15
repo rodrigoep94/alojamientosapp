@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   public messageError: string;
   registerForm: FormGroup;
   submitted = false;
+  loading = false;
   model = new User();
 
   constructor(private formBuilder: FormBuilder,
@@ -39,6 +40,10 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid){
       return;
     }
+    
+    this.registerForm.disable();
+    this.loading = true;
+
     // Encrypt
     var newUser = {...this.model} as User;
     newUser.password = crypto.HmacSHA1(this.model.password, 'alojamientosapp').toString();
@@ -47,7 +52,9 @@ export class RegisterComponent implements OnInit {
         console.log(data);
         this.activeModal.close();
     }, error =>{
-        console.log(error);
+        this.messageError = "Hubo un error al procesar la solicitud. Por favor intente nuevamente."
+        this.registerForm.enable();
+        this.loading = false;
     });
   }
 
