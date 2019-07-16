@@ -13,6 +13,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ListadoAlojamientoComponent } from './components/listado-alojamiento/listado-alojamiento.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { NotifyService } from './services/notify.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { RegisterComponent } from './components/register/register.component';
     HttpClientModule,
     NgbModule
   ],
-  providers: [],
+  providers: [
+    NotifyService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

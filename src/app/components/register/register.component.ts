@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import * as crypto from 'crypto-js';
 import { LoginService } from 'src/app/services/login.service';
+import { NotifyService } from 'src/app/services/notify.service';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit {
   model = new User();
 
   constructor(private formBuilder: FormBuilder,
+    private notifyService: NotifyService,
     private activeModal: NgbActiveModal,
     private loginService: LoginService) { }
 
@@ -46,7 +48,8 @@ export class RegisterComponent implements OnInit {
 
     this.loginService.register(this.model).subscribe(data => {
         this.loading = false;
-        this.messageError = "Usuario registrado correctamente!"
+        this.notifyService.add("Usuario registrado con éxito");
+        this.activeModal.dismiss();
     }, error =>{
         this.messageError = "Hubo un error al procesar la solicitud. Por favor intente nuevamente."
         this.registerForm.enable();

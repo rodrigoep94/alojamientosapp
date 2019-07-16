@@ -6,6 +6,7 @@ import { AlojamientosService } from 'src/app/services/alojamientos.service';
 import { Router } from '@angular/router';
 import { Helper } from '../../utils/helper';
 import { LogService } from '../../services/log.service';
+import { NotifyService } from 'src/app/services/notify.service';
 
 @Component({
   selector: 'app-alta-alojamiento',
@@ -25,6 +26,7 @@ export class AltaAlojamientoComponent implements OnInit {
                 private localizationService: LocalizationService,
                 private alojamientosService: AlojamientosService,
                 private logService: LogService,
+                private notifyService: NotifyService,
                 private router: Router) { }
 
     ngOnInit() {
@@ -64,6 +66,7 @@ export class AltaAlojamientoComponent implements OnInit {
             let newData = data as Alojamiento;
             this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + newData.id.toString() + " - " + Helper.getLocaleDate(new Date()));
             this.loading = false;
+            this.notifyService.add("Alojamiento creado con éxito");
             this.router.navigate(['/listadoAlojamientos']);
         }, error =>{
             this.logService.log("Error - Ha fallado la llamada al servicio de alta de alojamiento - " + error + " - " + Helper.getLocaleDate(new Date()));   
