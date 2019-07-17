@@ -10,13 +10,11 @@ import { Helper } from '../../utils/helper';
 })
 export class ListadoAlojamientoComponent implements OnInit {
 
-  constructor(private alojamientosService: AlojamientosService,
-              private logService: LogService) { }
+  constructor(private alojamientosService: AlojamientosService) { }
 
   alojamientos: any[];
 
   ngOnInit() {
-    this.logService.log("Log - Ha ingresado a la pantalla de listado de alojamiento - " + Helper.getLocaleDate(new Date()));
     this.getAlojamientos();
   }
 
@@ -24,19 +22,15 @@ export class ListadoAlojamientoComponent implements OnInit {
     this.alojamientosService.getAlojamientos().subscribe(data => {
       this.alojamientos = data;
     }, error =>{
-      this.logService.log("Error - Ha fallado la llamada al servicio de obtener alojamientos - " + error + " - " + Helper.getLocaleDate(new Date()));   
     });
   }
 
-  deleteAlojamiento(idAlojamiento){
-    if (confirm("¿Está seguro de querer eliminar el alojamiento?")){
-      this.alojamientosService.deleteAlojamiento(idAlojamiento).subscribe(data =>{
-        this.logService.log("Baja alojamiento - Se ha eliminado con exito el alojamiento con id " + idAlojamiento.toString() + " - " + Helper.getLocaleDate(new Date()));
-        this.getAlojamientos();
-      }, error =>{
-        this.logService.log("Error - Ha fallado la llamada al servicio de eliminar alojamiento - " + error + " - " + Helper.getLocaleDate(new Date()));   
-      });
-    }
+  editar(idAlojamiento){
+    
+  }
+
+  rechazar(idAlojamiento){
+    
   }
 
 }
