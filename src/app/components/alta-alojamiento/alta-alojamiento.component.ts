@@ -17,6 +17,7 @@ export class AltaAlojamientoComponent implements OnInit {
     comboProvincias = [];
     comboLocalidades = [];
     comboAlojamiento = ["Hotel", "Posada", "Cabana", "Otro"]
+    comboPension = ["Desayuno", "Media Pensión", "Pensión Completa"]
     registerForm: FormGroup;
     model: Alojamiento = new Alojamiento();
     submitted = false;
@@ -35,22 +36,14 @@ export class AltaAlojamientoComponent implements OnInit {
             localidad: [null, Validators.required],
             direccion: [null, Validators.required],
             tipoAlojamiento: [null, Validators.required],
+            valorPension: [null, Validators.required],
+            tipoPension: [null, Validators.required],
             categoria: [null, Validators.required],
             nombre: [null, Validators.required],
             descripcion: [null, Validators.required]
         });
         this.registerForm.controls.provincia.disabled;
         this.cargarComboProvincia();
-
-        this.logService.log("Log - Ha ingresado a la pantalla de alta de alojamiento - " + Helper.getLocaleDate(new Date()));
-    }
-
-    cargarComboProvincia(){
-        this.localizationService.getProvincias().subscribe(data => {
-            this.comboProvincias = this.formatDataForUbicationDropdowns(data.provincias);
-        }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de provincias - " + Date.now().toLocaleString());   
-        });
     }
 
     // convenience getter for easy access to form fields
@@ -63,13 +56,17 @@ export class AltaAlojamientoComponent implements OnInit {
         }
         this.loading = true;
         this.alojamientosService.guardarAlojamiento(this.model).subscribe(data => {
-            let newData = data as Alojamiento;
-            this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + newData.id.toString() + " - " + Helper.getLocaleDate(new Date()));
             this.loading = false;
             this.notifyService.add("Alojamiento creado con éxito");
             this.router.navigate(['/listadoAlojamientos']);
         }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de alta de alojamiento - " + error + " - " + Helper.getLocaleDate(new Date()));   
+        });
+    }
+
+    cargarComboProvincia(){
+        this.localizationService.getProvincias().subscribe(data => {
+            this.comboProvincias = this.formatDataForUbicationDropdowns(data.provincias);
+        }, error =>{
         });
     }
 
@@ -81,7 +78,6 @@ export class AltaAlojamientoComponent implements OnInit {
         this.localizationService.getLocalidades(idProvincia).subscribe(data => {
             this.comboLocalidades = this.formatDataForUbicationDropdowns(data.municipios);
         }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de localidades - " + error + " - " + Helper.getLocaleDate(new Date()));   
         });
     }
 
