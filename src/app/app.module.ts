@@ -14,6 +14,7 @@ import { ListadoAlojamientoComponent } from './components/listado-alojamiento/li
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { NotifyService } from './services/notify.service';
+import { ImagenesComponent } from './components/imagenes/imagenes.component';
 
 @NgModule({
   declarations: [
@@ -22,11 +23,13 @@ import { NotifyService } from './services/notify.service';
     AppHeaderComponent,
     ListadoAlojamientoComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ImagenesComponent
   ],
   entryComponents: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ImagenesComponent
   ],
   imports: [
     BrowserModule,

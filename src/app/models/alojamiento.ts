@@ -14,4 +14,7 @@ export class Alojamiento{
     tipoPension: string;
     valorPension: string;
     categoria: number;
+    imagenUno: any;
+    imagenDos: any;
+    imagenTres: any;
 }

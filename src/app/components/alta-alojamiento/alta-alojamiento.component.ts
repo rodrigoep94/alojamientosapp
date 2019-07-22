@@ -17,7 +17,7 @@ export class AltaAlojamientoComponent implements OnInit {
     comboProvincias = [];
     comboLocalidades = [];
     comboAlojamiento = ["Hotel", "Posada", "Cabana", "Otro"]
-    comboPension = ["Desayuno", "Media Pensión", "Pensión Completa"]
+    comboPension = ["Desayuno", "Media", "Completa"]
     registerForm: FormGroup;
     model: Alojamiento = new Alojamiento();
     submitted = false;
@@ -40,7 +40,10 @@ export class AltaAlojamientoComponent implements OnInit {
             tipoPension: [null, Validators.required],
             categoria: [null, Validators.required],
             nombre: [null, Validators.required],
-            descripcion: [null, Validators.required]
+            descripcion: [null, Validators.required],
+            imagenUno: [null],
+            imagenDos: [null],
+            imagenTres: [null]
         });
         this.registerForm.controls.provincia.disabled;
         this.cargarComboProvincia();
@@ -56,11 +59,38 @@ export class AltaAlojamientoComponent implements OnInit {
         }
         this.loading = true;
         this.alojamientosService.guardarAlojamiento(this.model).subscribe(data => {
-            this.loading = false;
-            this.notifyService.add("Alojamiento creado con éxito");
-            this.router.navigate(['/listadoAlojamientos']);
+            var newModel = data as Alojamiento;
+            var pension = {
+                tipopension: this.model.tipoPension,
+                precio: this.model.valorPension
+            };
+            
+            this.alojamientosService.guardarPension(pension, newModel.id).subscribe(data => {
+                console.log(this.model);
+                this.saveImages(newModel.id);
+                this.loading = false;
+                this.notifyService.add("Alojamiento creado con éxito");
+                this.router.navigate(['/listadoAlojamientos']);
+            });
         }, error =>{
         });
+    }
+
+    saveImages(idAlojamiento: number){
+        if(this.model.imagenUno){
+            this.alojamientosService.saveImage(this.model.imagenUno, idAlojamiento).subscribe(data => {
+            });
+        }
+
+        if(this.model.imagenDos){
+            this.alojamientosService.saveImage(this.model.imagenDos, idAlojamiento).subscribe(data => {
+            });
+        }
+
+        if(this.model.imagenTres){
+            this.alojamientosService.saveImage(this.model.imagenTres, idAlojamiento).subscribe(data => {
+            });
+        }
     }
 
     cargarComboProvincia(){
@@ -79,6 +109,22 @@ export class AltaAlojamientoComponent implements OnInit {
             this.comboLocalidades = this.formatDataForUbicationDropdowns(data.municipios);
         }, error =>{
         });
+    }
+
+    changeImage(ev, imagen: number){
+        switch(imagen){
+            case 1:
+                this.model.imagenUno = ev.target.files[0];
+                break;
+            case 2:
+                this.model.imagenDos = ev.target.files[0];
+                break;
+            case 3:
+                this.model.imagenTres = ev.target.files[0];
+                break;
+            default:
+                break;
+        }
     }
 
     private formatDataForUbicationDropdowns(list){

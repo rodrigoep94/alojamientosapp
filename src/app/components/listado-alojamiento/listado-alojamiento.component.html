@@ -8,9 +8,12 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Categoria</th>
+                <th scope="col">Pensión</th>
+                <th scope="col">Valor Pensión</th>
                 <th scope="col">Provincia</th>
                 <th scope="col">Localidad</th>
                 <th scope="col">Dirección</th>
+                <th scope="col">Imagenes</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
@@ -20,9 +23,17 @@
                 <td>{{ alojamiento.nombre }}</td>
                 <td>{{ alojamiento.descripcion }}</td>
                 <td>{{ alojamiento.categoria }}</td>
+                <td>{{ alojamiento.pensiones[0]?.tipopension }}</td>
+                <td>{{ alojamiento.pensiones[0]?.precio }}</td>
                 <td>{{ alojamiento.ubicacion.provincia }}</td>
                 <td>{{ alojamiento.ubicacion.localidad }}</td>
                 <td>{{ alojamiento.ubicacion.direccion }}</td>
+                <td>
+                  <i style="cursor: pointer;"
+                     placement="top" ngbTooltip="Ver Imagenes"
+                     (click)="verImagenes(alojamiento.id)"
+                     class="fas fa-images fa-lg"></i>
+                </td>
                 <td>
                   <i style="color:green; cursor: pointer;"
                      (click)="editar(alojamiento.id)"
