@@ -1,0 +1,86 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Alta de Usuario</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="registerForm">
+
+      <!--Nombre-->
+      <div class="form-group row">
+          <label class="col-sm-12 col-form-label">Nombre</label>
+          <div class="col-sm-12">
+              <input type="text"
+                     placeholder="Ingrese el nombre" 
+                     formControlName="firstName"
+                     class="form-control"
+                     [(ngModel)] = "model.firstName"
+                     [ngClass]="{ 'control-error': submitted && f.firstName.errors }" />
+              <div *ngIf="submitted && f.firstName.errors" class="form-error">
+                  <div *ngIf="f.firstName.errors.required">El nombre es requerido</div>
+              </div>
+          </div>
+      </div>
+
+      <!--Apellido-->
+      <div class="form-group row">
+          <label class="col-sm-12 col-form-label">Apellido</label>
+          <div class="col-sm-12">
+              <input type="text"
+                     placeholder="Ingrese el apellido" 
+                     formControlName="lastName"
+                     class="form-control"
+                     [(ngModel)] = "model.lastName"
+                     [ngClass]="{ 'control-error': submitted && f.lastName.errors }" />
+              <div *ngIf="submitted && f.lastName.errors" class="form-error">
+                  <div *ngIf="f.lastName.errors.required">El apellido es requerido</div>
+              </div>
+          </div>
+      </div>
+
+      <!--Username-->
+      <div class="form-group row">
+          <label class="col-sm-12 col-form-label">Nombre de usuario</label>
+          <div class="col-sm-12">
+              <input type="text"
+                     class="form-control"
+                     formControlName="email"
+                     placeholder="Ingrese el nombre de usuario" 
+                     [(ngModel)] = "model.email"
+                     [ngClass]="{ 'control-error': submitted && f.email.errors }" />
+              <div *ngIf="submitted && f.email.errors" class="form-error">
+                  <div *ngIf="f.email.errors.required">El nombre de usuario es requerido</div>
+              </div>
+          </div>
+      </div>
+
+      <!--Contraseña-->
+      <div class="form-group row">
+          <label class="col-sm-12 col-form-label">Contraseña</label>
+          <div class="col-sm-12">
+                <show-hide-password size="md" [btnOutline]="false">
+                    <input type="password"
+                        class="form-control"
+                        formControlName="password"
+                        placeholder="Ingrese la contraseña" 
+                        [(ngModel)] = "model.password"
+                        [ngClass]="{ 'control-error': submitted && f.password.errors }" />
+                </show-hide-password>   
+              <div *ngIf="submitted && f.password.errors" class="form-error">
+                  <div *ngIf="f.password.errors.required">La contraseña es requerida</div>
+              </div>
+          </div>
+      </div>
+    </form>
+    <div class="col-md-12 text-center red-colour" *ngIf="messageError">
+      {{messageError}}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <img *ngIf="loading"
+    src="https://66.media.tumblr.com/695ce9a82c8974ccbbfc7cad40020c62/tumblr_o9c9rnRZNY1qbmm1co1_1280.gifv" 
+    width="9%">
+    <button type="button" class="btn btn-success" (click)="register()" [disabled]="loading || submitted">Registrarse</button>
+    <button type="button" class="btn btn-info" (click)="closeModal()" [disabled]="loading">Cancelar</button>
+  </div>

@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AlojamientosService } from 'src/app/services/alojamientos.service';
+import { ImagenesComponent } from '../imagenes/imagenes.component';
 import { LogService } from '../../services/log.service';
 import { Helper } from '../../utils/helper';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RechazoAlojamientoComponent } from '../rechazo-alojamiento/rechazo-alojamiento.component';
+import { EditarAprobarAlojamientoComponent } from '../editar-aprobar-alojamiento/editar-aprobar-alojamiento.component';
 
 @Component({
   selector: 'app-listado-alojamiento',
@@ -11,32 +15,84 @@ import { Helper } from '../../utils/helper';
 export class ListadoAlojamientoComponent implements OnInit {
 
   constructor(private alojamientosService: AlojamientosService,
-              private logService: LogService) { }
+              private modalService: NgbModal) { }
 
   alojamientos: any[];
+  errorMessage: string;
 
   ngOnInit() {
-    this.logService.log("Log - Ha ingresado a la pantalla de listado de alojamiento - " + Helper.getLocaleDate(new Date()));
     this.getAlojamientos();
   }
 
   getAlojamientos(){
-    this.alojamientosService.getAlojamientos().subscribe(data => {
+    try {
+      if(this.isAdmin()) {
+        this.getAlojamientosAdmin();
+      } 
+      else {
+        this.getAlojamientosUser();
+      }
+    }
+    catch (error) {
+      this.errorMessage = "Debe encontrarse logueado para ver los alojamientos";
+    }
+  }
+
+  getAlojamientosUser(){
+    this.alojamientosService.getAlojamientosValidados().subscribe(data => {
       this.alojamientos = data;
+    })
+  }
+
+  getAlojamientosAdmin(){
+    this.alojamientosService.getAlojamientos().subscribe(data => {
+      this.alojamientos = data.filter(x => x.justificacionRechazo == null);
     }, error =>{
-      this.logService.log("Error - Ha fallado la llamada al servicio de obtener alojamientos - " + error + " - " + Helper.getLocaleDate(new Date()));   
     });
   }
 
-  deleteAlojamiento(idAlojamiento){
-    if (confirm("¿Está seguro de querer eliminar el alojamiento?")){
-      this.alojamientosService.deleteAlojamiento(idAlojamiento).subscribe(data =>{
-        this.logService.log("Baja alojamiento - Se ha eliminado con exito el alojamiento con id " + idAlojamiento.toString() + " - " + Helper.getLocaleDate(new Date()));
-        this.getAlojamientos();
-      }, error =>{
-        this.logService.log("Error - Ha fallado la llamada al servicio de eliminar alojamiento - " + error + " - " + Helper.getLocaleDate(new Date()));   
-      });
+  editar(idAlojamiento){
+    var modal = this.modalService.open(EditarAprobarAlojamientoComponent);
+    modal.componentInstance.idAlojamiento = idAlojamiento;
+    
+    modal.result.then((result) => {
+      console.log(`Closed with: ${result}`);
+    }, (reason) => {
+      this.getAlojamientos();
+    })
+  }
+
+  rechazar(idAlojamiento){
+    var modal = this.modalService.open(RechazoAlojamientoComponent);
+    modal.componentInstance.idAlojamiento = idAlojamiento;
+    
+    modal.result.then((result) => {
+      console.log(`Closed with: ${result}`);
+    }, (reason) => {
+      this.getAlojamientos();
+    })
+  }
+
+  verImagenes(idAlojamiento){
+    var modal = this.modalService.open(ImagenesComponent, { size: "lg" });
+    modal.componentInstance.idAlojamiento = idAlojamiento;
+  }
+
+  getEstado(check){
+    if (check == null){
+      return "A validar";
     }
+
+    if (check){
+      return "Aceptado";
+    }
+  }
+  isChecked(check){
+    return check == null;
+  }
+
+  isAdmin(){
+    return Helper.isAdmin();
   }
 
 }

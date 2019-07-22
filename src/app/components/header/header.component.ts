@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { saveAs } from 'file-saver/src/FileSaver';
-import { Helper } from '../../utils/helper';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-header',
@@ -9,17 +10,37 @@ import { Helper } from '../../utils/helper';
 })
 export class AppHeaderComponent implements OnInit {
 
-  constructor() { }
+  public usuario;
+  public usuarioLogueado;
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.getUsuario();
   }
 
-  descargarLog(){
-    let logs: string[] = JSON.parse(localStorage.getItem("AlojamientosLog")) || [];
-    logs = logs.map(str => { return str + "\r\n"});
-    const filename = "Alojamientos-log-" + Helper.getLocaleDate(new Date()) + ".txt";
-    const blob = new Blob(logs, { type: 'text/plain' });
-    saveAs(blob, filename);
+  getUsuario(){
+    this.usuario = JSON.parse(sessionStorage.getItem('User-Alojamientosapp'));
+    this.usuarioLogueado = this.usuario != null;
+  }
+
+  login(){
+    var modal = this.modalService.open(LoginComponent);
+    modal.result.then((result) => {
+      console.log(`Closed with: ${result}`);
+    }, (reason) => {
+      this.getUsuario();
+      window.location.reload();
+    })
+  }
+
+  register(){
+    this.modalService.open(RegisterComponent);
+  }
+  
+  logout(){
+    sessionStorage.removeItem('User-Alojamientosapp');
+    this.getUsuario();
+    window.location.reload();
   }
 
 }

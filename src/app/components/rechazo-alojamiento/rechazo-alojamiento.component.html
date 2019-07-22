@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Rechazo de alojamiento</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span>&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="rechazoForm">
+      <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Motivo de rechazo</label>
+          <div class="col-sm-8">
+              <input type="text"
+                      formControlName="motivoRechazo"
+                      class="form-control"
+                      [(ngModel)] = "motivoRechazo"
+                      [ngClass]="{ 'control-error': submitted && f.motivoRechazo.errors }" />
+              <div *ngIf="submitted && f.motivoRechazo.errors" class="form-error">
+                  <div *ngIf="f.motivoRechazo.errors.required">El motivo de rechazo es requerido</div>
+              </div>
+          </div>
+      </div>
+  </form>
+</div>
+<div class="modal-footer">
+    <img *ngIf="loading"
+    src="https://66.media.tumblr.com/695ce9a82c8974ccbbfc7cad40020c62/tumblr_o9c9rnRZNY1qbmm1co1_1280.gifv" 
+    width="9%">
+  <button type="button" class="btn btn-success" (click)="rechazar()" [disabled]="loading">Aceptar</button>
+  <button type="button" class="btn btn-info" (click)="closeModal()" [disabled]="loading">Cancelar</button>
+</div>

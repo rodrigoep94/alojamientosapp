@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Imagenes</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span>&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <ngb-carousel *ngIf="imagenes">
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="imagenes[0]" alt="Imagen 1" width="100%">
+      </div>
+      <div class="carousel-caption">
+        <h3>Imagen 1</h3>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="imagenes[1]" alt="Imagen 2">
+      </div>
+      <div class="carousel-caption">
+        <h3>Imagen 2</h3>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="imagenes[2]" alt="Imagen 3">
+      </div>
+      <div class="carousel-caption">
+        <h3>Imagen 3</h3>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+
+  <h2 *ngIf="!imagenes"> No hay imagenes disponibles </h2>
+</div>

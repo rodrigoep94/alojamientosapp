@@ -6,6 +6,7 @@ import { AlojamientosService } from 'src/app/services/alojamientos.service';
 import { Router } from '@angular/router';
 import { Helper } from '../../utils/helper';
 import { LogService } from '../../services/log.service';
+import { NotifyService } from 'src/app/services/notify.service';
 
 @Component({
   selector: 'app-alta-alojamiento',
@@ -16,6 +17,7 @@ export class AltaAlojamientoComponent implements OnInit {
     comboProvincias = [];
     comboLocalidades = [];
     comboAlojamiento = ["Hotel", "Posada", "Cabana", "Otro"]
+    comboPension = ["Desayuno", "Media", "Completa"]
     registerForm: FormGroup;
     model: Alojamiento = new Alojamiento();
     submitted = false;
@@ -24,33 +26,35 @@ export class AltaAlojamientoComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
                 private localizationService: LocalizationService,
                 private alojamientosService: AlojamientosService,
-                private logService: LogService,
+                private notifyService: NotifyService,
                 private router: Router) { }
 
     ngOnInit() {
+        this.checkUser();
         this.registerForm = this.formBuilder.group({
             provincia: [null, Validators.required],
             localidad: [null, Validators.required],
             direccion: [null, Validators.required],
             tipoAlojamiento: [null, Validators.required],
+            valorPension: [null, Validators.required],
+            tipoPension: [null, Validators.required],
             categoria: [null, Validators.required],
             nombre: [null, Validators.required],
-            descripcion: [null, Validators.required]
+            descripcion: [null, Validators.required],
+            imagenUno: [null],
+            imagenDos: [null],
+            imagenTres: [null]
         });
         this.registerForm.controls.provincia.disabled;
         this.cargarComboProvincia();
-
-        this.logService.log("Log - Ha ingresado a la pantalla de alta de alojamiento - " + Helper.getLocaleDate(new Date()));
     }
 
-    cargarComboProvincia(){
-        this.localizationService.getProvincias().subscribe(data => {
-            this.comboProvincias = this.formatDataForUbicationDropdowns(data.provincias);
-        }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de provincias - " + Date.now().toLocaleString());   
-        });
+    checkUser(){
+        if(!Helper.isLogged()){
+            this.router.navigate(['/listadoAlojamientos']);
+        }
     }
-
+    
     // convenience getter for easy access to form fields
     get f() { return this.registerForm.controls; }
 
@@ -61,12 +65,56 @@ export class AltaAlojamientoComponent implements OnInit {
         }
         this.loading = true;
         this.alojamientosService.guardarAlojamiento(this.model).subscribe(data => {
-            let newData = data as Alojamiento;
-            this.logService.log("Alta alojamiento - Se ha creado con exito el alojamiento con id " + newData.id.toString() + " - " + Helper.getLocaleDate(new Date()));
-            this.loading = false;
-            this.router.navigate(['/listadoAlojamientos']);
+            var newModel = data as Alojamiento;
+            var pension = {
+                tipopension: this.model.tipoPension,
+                precio: this.model.valorPension
+            };
+            
+            this.alojamientosService.guardarPension(pension, newModel.id).subscribe(data => {
+                console.log(this.model);
+                this.saveImages(newModel.id);
+                this.loading = false;
+                this.notifyService.add("Alojamiento creado con éxito");
+                this.router.navigate(['/listadoAlojamientos']);
+            });
         }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de alta de alojamiento - " + error + " - " + Helper.getLocaleDate(new Date()));   
+        });
+    }
+    
+    public valNumKeyPress(ev: any) {
+        Helper.valDecimalKeyPress(ev)
+    }
+
+    public valNumKeyPaste(ev:any){
+        // Get pasted data via clipboard API
+        let clipboardData = ev.clipboardData || window['clipboardData'];
+        let pastedData = clipboardData.getData('Text');
+    
+        Helper.valDecimalKeyPaste(pastedData, ev);
+    }
+
+    saveImages(idAlojamiento: number){
+        if(this.model.imagenUno){
+            this.alojamientosService.saveImage(this.model.imagenUno, idAlojamiento).subscribe(data => {
+            });
+        }
+
+        if(this.model.imagenDos){
+            this.alojamientosService.saveImage(this.model.imagenDos, idAlojamiento).subscribe(data => {
+            });
+        }
+
+        if(this.model.imagenTres){
+            this.alojamientosService.saveImage(this.model.imagenTres, idAlojamiento).subscribe(data => {
+            });
+        }
+    }
+
+    cargarComboProvincia(){
+        this.localizationService.getProvincias().subscribe(data => {
+            this.comboProvincias = this.formatDataForUbicationDropdowns(data.provincias);
+        }, error =>{
         });
     }
 
@@ -78,8 +126,23 @@ export class AltaAlojamientoComponent implements OnInit {
         this.localizationService.getLocalidades(idProvincia).subscribe(data => {
             this.comboLocalidades = this.formatDataForUbicationDropdowns(data.municipios);
         }, error =>{
-            this.logService.log("Error - Ha fallado la llamada al servicio de localidades - " + error + " - " + Helper.getLocaleDate(new Date()));   
         });
+    }
+
+    changeImage(ev, imagen: number){
+        switch(imagen){
+            case 1:
+                this.model.imagenUno = ev.target.files[0];
+                break;
+            case 2:
+                this.model.imagenDos = ev.target.files[0];
+                break;
+            case 3:
+                this.model.imagenTres = ev.target.files[0];
+                break;
+            default:
+                break;
+        }
     }
 
     private formatDataForUbicationDropdowns(list){

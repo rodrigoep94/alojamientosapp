@@ -11,5 +11,10 @@ export class Alojamiento{
     descripcion: string;
     ubicacion: Ubicacion;
     tipoAlojamiento: string;
+    tipoPension: string;
+    valorPension: string;
     categoria: number;
+    imagenUno: any;
+    imagenDos: any;
+    imagenTres: any;
 }

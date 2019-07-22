@@ -1,3 +1,11 @@
 <app-header></app-header>
 
-<router-outlet></router-outlet>
+<router-outlet>
+    <div *ngIf="canShowNotifications" id="notifications">
+        <div class="notify" *ngFor="let noti of getNotifications">
+            <ngb-alert [dismissible]="false">
+                {{noti}}
+            </ngb-alert>
+        </div>
+    </div>
+</router-outlet>
