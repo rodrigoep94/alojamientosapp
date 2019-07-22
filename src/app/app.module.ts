@@ -15,6 +15,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { NotifyService } from './services/notify.service';
 import { ImagenesComponent } from './components/imagenes/imagenes.component';
+import { RechazoAlojamientoComponent } from './components/rechazo-alojamiento/rechazo-alojamiento.component';
+import { EditarAprobarAlojamientoComponent } from './components/editar-aprobar-alojamiento/editar-aprobar-alojamiento.component';
 
 @NgModule({
   declarations: [
@@ -24,12 +26,16 @@ import { ImagenesComponent } from './components/imagenes/imagenes.component';
     ListadoAlojamientoComponent,
     LoginComponent,
     RegisterComponent,
-    ImagenesComponent
+    ImagenesComponent,
+    RechazoAlojamientoComponent,
+    EditarAprobarAlojamientoComponent
   ],
   entryComponents: [
     LoginComponent,
     RegisterComponent,
-    ImagenesComponent
+    ImagenesComponent,
+    RechazoAlojamientoComponent,
+    EditarAprobarAlojamientoComponent
   ],
   imports: [
     BrowserModule,

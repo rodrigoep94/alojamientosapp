@@ -18,6 +18,11 @@ export class AlojamientosService extends BaseService {
      return alojamientos;
    }
 
+   getAlojamientosValidados(): Observable<any>{
+     var alojamientos = this.get('alojamiento/getValidados');
+     return alojamientos;
+   }
+
    getAlojamiento(idAlojamiento: number): Observable<any>{
      var alojamientos = this.get('alojamiento/get/' + idAlojamiento.toString());
      return alojamientos;
@@ -33,6 +38,11 @@ export class AlojamientosService extends BaseService {
     return alojamientoEliminado;
   }
 
+  editarAlojamiento(alojamiento: Alojamiento): Observable<any>{
+    var alojamientoGuardado = this.postWithSecurity('alojamiento/update', JSON.stringify(alojamiento));
+    return alojamientoGuardado;
+  }
+
   guardarPension(pension: any, idAlojamiento: number){
     var pensionAgregada = this.postWithSecurity('alojamiento/agregarModificarPension/' + idAlojamiento.toString(), JSON.stringify(pension));
     return pensionAgregada;
@@ -41,5 +51,15 @@ export class AlojamientosService extends BaseService {
   saveImage(image: any, idAlojamiento: number){
     var imagenAgregada = this.postFile('alojamiento/uploadFile/' + idAlojamiento.toString(), image);
     return imagenAgregada;
+  }
+
+  rechazarAlojamiento(motivo: string, idAlojamiento: number){
+    var rechazo = this.postRechazo('alojamiento/uncheck/' + idAlojamiento.toString(), motivo);
+    return rechazo;
+  }
+
+  aceptarAlojamiento(idAlojamiento: number){
+    var rechazo = this.postWithSecurity('alojamiento/check/' + idAlojamiento.toString(), {});
+    return rechazo;
   }
 }

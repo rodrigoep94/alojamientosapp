@@ -40,6 +40,20 @@ export class BaseService {
         return this.http.post(this.baseUrl + url, formData, options)
     }
 
+    public postRechazo(url, motivo){
+        
+        let httpHeaders = new HttpHeaders()
+            .set('Authorization', 'Basic ' + btoa(this.logedUser.username + ':' + this.logedUser.password));
+        let options = {
+          headers: httpHeaders
+        };
+
+        let formData: FormData = new FormData();
+        formData.append('justificacion', motivo);
+
+        return this.http.post(this.baseUrl + url, formData, options)
+    }
+
     public post(url, model){
         
         let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
@@ -48,6 +62,13 @@ export class BaseService {
         };
           
         return this.http.post(this.baseUrl + url, model, options)
+    }
+
+    public put(url){
+        let headers = new HttpHeaders({ 
+            Authorization: 'Basic ' + btoa(this.logedUser.username + ':' + this.logedUser.password) 
+        });       
+        return this.http.put(this.baseUrl + url, null, {headers});
     }
 
     public delete(url, model){

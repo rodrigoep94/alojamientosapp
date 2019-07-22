@@ -26,11 +26,11 @@ export class AltaAlojamientoComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
                 private localizationService: LocalizationService,
                 private alojamientosService: AlojamientosService,
-                private logService: LogService,
                 private notifyService: NotifyService,
                 private router: Router) { }
 
     ngOnInit() {
+        this.checkUser();
         this.registerForm = this.formBuilder.group({
             provincia: [null, Validators.required],
             localidad: [null, Validators.required],
@@ -49,6 +49,12 @@ export class AltaAlojamientoComponent implements OnInit {
         this.cargarComboProvincia();
     }
 
+    checkUser(){
+        if(!Helper.isLogged()){
+            this.router.navigate(['/listadoAlojamientos']);
+        }
+    }
+    
     // convenience getter for easy access to form fields
     get f() { return this.registerForm.controls; }
 
@@ -74,6 +80,18 @@ export class AltaAlojamientoComponent implements OnInit {
             });
         }, error =>{
         });
+    }
+    
+    public valNumKeyPress(ev: any) {
+        Helper.valDecimalKeyPress(ev)
+    }
+
+    public valNumKeyPaste(ev:any){
+        // Get pasted data via clipboard API
+        let clipboardData = ev.clipboardData || window['clipboardData'];
+        let pastedData = clipboardData.getData('Text');
+    
+        Helper.valDecimalKeyPaste(pastedData, ev);
     }
 
     saveImages(idAlojamiento: number){

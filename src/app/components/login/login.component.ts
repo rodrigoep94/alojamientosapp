@@ -41,8 +41,8 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     
     this.loginService.login(this.model).subscribe(data => {
-        console.log(data);
-        let newUserToSave = new UserSavedModel(this.model.username, this.model.password, []);
+        var userLogged = data as User;
+        let newUserToSave = new UserSavedModel(userLogged.email, this.model.password, userLogged.roles);
         
         sessionStorage.setItem("User-Alojamientosapp", JSON.stringify(newUserToSave));
         this.activeModal.dismiss();

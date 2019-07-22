@@ -14,11 +14,12 @@
                 <th scope="col">Localidad</th>
                 <th scope="col">Dirección</th>
                 <th scope="col">Imagenes</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Estado</th>
+                <th scope="col" *ngIf="isAdmin() "></th>
+                <th scope="col" *ngIf="isAdmin()"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="!errorMessage">
               <tr *ngFor="let alojamiento of alojamientos">
                 <td>{{ alojamiento.nombre }}</td>
                 <td>{{ alojamiento.descripcion }}</td>
@@ -34,14 +35,17 @@
                      (click)="verImagenes(alojamiento.id)"
                      class="fas fa-images fa-lg"></i>
                 </td>
-                <td>
+                <td>{{ getEstado(alojamiento.checked)}}</td>
+                <td *ngIf="isAdmin()">
                   <i style="color:green; cursor: pointer;"
+                     *ngIf = "isChecked(alojamiento.checked)"
                      (click)="editar(alojamiento.id)"
                      placement="top" ngbTooltip="Editar y aceptar alojamiento"
                      class="fas fa-check fa-lg"></i>
                 </td>
-                <td>
+                <td *ngIf="isAdmin()">
                   <i style="color:red; cursor: pointer;"
+                     *ngIf = "isChecked(alojamiento.checked)"
                      placement="top" ngbTooltip="Rechazar alojamiento"
                      (click)="rechazar(alojamiento.id)"
                      class="fas fa-times fa-lg"></i>
@@ -49,6 +53,9 @@
               </tr>
             </tbody>
           </table>
+          <div class="text-center col-md-12">
+            <h3>{{errorMessage}}</h3>
+          </div>
       </div>
   </div>
 </div>

@@ -6,7 +6,7 @@
       <li>
           <a class="nav-item nav-link text-light" routerLink="listadoAlojamientos">Listado de alojamientos</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="usuarioLogueado">
           <a class="nav-item nav-link text-light" routerLink="altaAlojamiento">Alta de alojamientos</a>
       </li>
     </ul>

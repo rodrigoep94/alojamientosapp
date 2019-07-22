@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
       path: '**',
-      redirectTo: '/altaAlojamiento',
+      redirectTo: '/listadoAlojamientos',
       pathMatch: 'full'
   }
 ];

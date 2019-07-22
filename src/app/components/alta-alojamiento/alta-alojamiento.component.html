@@ -66,6 +66,8 @@
                             <input type="text"
                                     formControlName="valorPension"
                                     class="form-control"
+                                    (keypress)="valNumKeyPress($event)"
+                                    (paste)="valNumKeyPaste($event)"
                                     [(ngModel)] = "model.valorPension"
                                     [ngClass]="{ 'control-error': submitted && f.valorPension.errors }" />
                             <div *ngIf="submitted && f.valorPension.errors" class="form-error">
