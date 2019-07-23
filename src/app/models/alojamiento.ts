@@ -10,7 +10,7 @@ export class Alojamiento{
     nombre: string;
     descripcion: string;
     ubicacion: Ubicacion;
-    tipoAlojamiento: string;
+    tipoalojamiento: string;
     tipoPension: string;
     valorPension: string;
     categoria: number;

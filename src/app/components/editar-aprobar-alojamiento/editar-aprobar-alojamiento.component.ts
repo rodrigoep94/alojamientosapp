@@ -4,6 +4,7 @@ import { Alojamiento } from 'src/app/models/alojamiento';
 import { NotifyService } from 'src/app/services/notify.service';
 import { AlojamientosService } from 'src/app/services/alojamientos.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Helper } from 'src/app/utils/helper';
 
 @Component({
   selector: 'app-editar-aprobar-alojamiento',
@@ -22,12 +23,15 @@ export class EditarAprobarAlojamientoComponent implements OnInit {
   model: Alojamiento = new Alojamiento();
   submitted = false;
   loading = false;
+  comboPension = ["Desayuno", "Media", "Completa"];
 
   ngOnInit() {
     this.alojamientoForm = this.formBuilder.group({
       nombre: [null, Validators.required],
       descripcion: [null, Validators.required],
       categoria: [null, Validators.required],
+      valorPension: [null, Validators.required],
+      tipoPension: [null, Validators.required],
     });
 
     this.getAlojamiento();
@@ -53,6 +57,14 @@ export class EditarAprobarAlojamientoComponent implements OnInit {
       this.alojamientosService.editarAlojamiento(this.model).subscribe(data => {
         this.loading = false;
 
+        
+        var pension = {
+          tipopension: this.model.tipoPension,
+          precio: this.model.valorPension
+      };
+      
+      this.alojamientosService.guardarPension(pension, this.idAlojamiento);
+
         this.alojamientosService.aceptarAlojamiento(this.idAlojamiento).subscribe(data => {
           this.notifyService.add("El alojamiento " + this.idAlojamiento.toString() + " ha sido aprobado correctamente");
           this.activeModal.dismiss();
@@ -63,5 +75,17 @@ export class EditarAprobarAlojamientoComponent implements OnInit {
 
   closeModal(){
     this.activeModal.close();
+  }
+    
+  public valNumKeyPress(ev: any) {
+      Helper.valDecimalKeyPress(ev)
+  }
+
+  public valNumKeyPaste(ev:any){
+      // Get pasted data via clipboard API
+      let clipboardData = ev.clipboardData || window['clipboardData'];
+      let pastedData = clipboardData.getData('Text');
+  
+      Helper.valDecimalKeyPaste(pastedData, ev);
   }
 }

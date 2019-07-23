@@ -52,21 +52,37 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Tipo de pensión</label>
             <div class="col-sm-8">
-                <label>{{model.tipoPension}}</label>
+                <ng-select [items]="comboPension"
+                            [(ngModel)]="model.tipoPension"
+                            formControlName="tipoPension"
+                            placeholder="Seleccionar un tipo de pension"
+                            [ngClass]="{ 'control-error': submitted && f.tipoPension.errors }" ></ng-select>
+                <div *ngIf="submitted && f.tipoPension.errors" class="form-error">
+                    <div *ngIf="f.tipoPension.errors.required">El tipo de pensión es requerido</div>
+                </div>
             </div>
         </div>
         
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Valor de pensión</label>
             <div class="col-sm-8">
-                <label> {{model.valorPension}} </label>
+                <input type="text"
+                        formControlName="valorPension"
+                        class="form-control"
+                        (keypress)="valNumKeyPress($event)"
+                        (paste)="valNumKeyPaste($event)"
+                        [(ngModel)] = "model.valorPension"
+                        [ngClass]="{ 'control-error': submitted && f.valorPension.errors }" />
+                <div *ngIf="submitted && f.valorPension.errors" class="form-error">
+                    <div *ngIf="f.valorPension.errors.required">El valor de la pensión es requerido</div>
+                </div>
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Tipo de alojamiento</label>
             <div class="col-sm-8">
-                <label> Hotel </label>
+                <label> {{model.tipoalojamiento}} </label>
             </div>
         </div>
 

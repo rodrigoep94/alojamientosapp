@@ -8,6 +8,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Categoria</th>
+                <th scope="col">Tipo</th>
                 <th scope="col">Pensión</th>
                 <th scope="col">Valor Pensión</th>
                 <th scope="col">Provincia</th>
@@ -24,6 +25,7 @@
                 <td>{{ alojamiento.nombre }}</td>
                 <td>{{ alojamiento.descripcion }}</td>
                 <td>{{ alojamiento.categoria }}</td>
+                <td>{{ alojamiento.tipoalojamiento}}</td>
                 <td>{{ alojamiento.pensiones[0]?.tipopension }}</td>
                 <td>{{ alojamiento.pensiones[0]?.precio }}</td>
                 <td>{{ alojamiento.ubicacion.provincia }}</td>
