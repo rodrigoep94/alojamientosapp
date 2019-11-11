@@ -10,7 +10,7 @@ import { UserSavedModel } from '../models/userSavedModel';
 })
 export class BaseService {
 
-    private baseUrl = "https://alojapp-backend.herokuapp.com/";
+    private baseUrl = "http://localhost:9090/";
     private logedUser = JSON.parse(sessionStorage.getItem("User-Alojamientosapp")) as UserSavedModel;
 
     constructor(protected http: HttpClient){
@@ -24,6 +24,26 @@ export class BaseService {
           headers: httpHeaders
         };
         return this.http.post(this.baseUrl + url, model, options)
+    }
+
+    public putWithSecurity(url, model){
+        
+        let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json')
+            .set('Authorization', 'Basic ' + btoa(this.logedUser.username + ':' + this.logedUser.password));
+        let options = {
+          headers: httpHeaders
+        };
+        return this.http.put(this.baseUrl + url, model, options)
+    }
+
+    public patchWithSecurity(url, model){
+        
+        let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json')
+            .set('Authorization', 'Basic ' + btoa(this.logedUser.username + ':' + this.logedUser.password));
+        let options = {
+          headers: httpHeaders
+        };
+        return this.http.patch(this.baseUrl + url, model, options)
     }
 
     public postFile(url, image){

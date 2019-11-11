@@ -14,42 +14,42 @@ export class AlojamientosService extends BaseService {
    }
 
    getAlojamientos(): Observable<any>{
-     var alojamientos = this.get('alojamiento/get');
+     var alojamientos = this.get('alojamiento');
      return alojamientos;
    }
 
    getAlojamientosValidados(): Observable<any>{
-     var alojamientos = this.get('alojamiento/getValidados');
+     var alojamientos = this.get('alojamiento/estado/VALIDADO');
      return alojamientos;
    }
 
    getAlojamiento(idAlojamiento: number): Observable<any>{
-     var alojamientos = this.get('alojamiento/get/' + idAlojamiento.toString());
+     var alojamientos = this.get('alojamiento/' + idAlojamiento.toString());
      return alojamientos;
    }
 
   guardarAlojamiento(alojamiento: Alojamiento){
-    var alojamientoGuardado = this.postWithSecurity('alojamiento/create', JSON.stringify(alojamiento));
+    var alojamientoGuardado = this.postWithSecurity('alojamiento', JSON.stringify(alojamiento));
     return alojamientoGuardado;
   }
 
   deleteAlojamiento(idAlojamiento: number){
-    var alojamientoEliminado = this.delete('alojamiento/delete/' + idAlojamiento.toString(), null);
+    var alojamientoEliminado = this.delete('alojamiento/' + idAlojamiento.toString(), null);
     return alojamientoEliminado;
   }
 
   editarAlojamiento(alojamiento: Alojamiento): Observable<any>{
-    var alojamientoGuardado = this.postWithSecurity('alojamiento/update', JSON.stringify(alojamiento));
+    var alojamientoGuardado = this.patchWithSecurity('alojamiento', JSON.stringify(alojamiento));
     return alojamientoGuardado;
   }
 
   guardarPension(pension: any, idAlojamiento: number){
-    var pensionAgregada = this.postWithSecurity('alojamiento/agregarModificarPension/' + idAlojamiento.toString(), JSON.stringify(pension));
+    var pensionAgregada = this.putWithSecurity('pension/' + idAlojamiento.toString(), JSON.stringify(pension));
     return pensionAgregada;
   }
 
   saveImage(image: any, idAlojamiento: number){
-    var imagenAgregada = this.postFile('alojamiento/uploadFile/' + idAlojamiento.toString(), image);
+    var imagenAgregada = this.postFile('alojamiento/addFile/' + idAlojamiento.toString(), image);
     return imagenAgregada;
   }
 

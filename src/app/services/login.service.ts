@@ -19,6 +19,7 @@ export class LoginService extends BaseService {
   }
 
   register(user: User){
+    debugger;
     var userLogeado = this.post('usuario/register', JSON.stringify(user));
     return userLogeado;
   }

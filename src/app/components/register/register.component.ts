@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
+    debugger;
     this.submitted = true;
     if (this.registerForm.invalid){
       return;
